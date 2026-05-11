@@ -1,0 +1,71 @@
+<h1>Погода</h1>
+
+<%= form_with url: "/weather/search", method: :post, data: { turbo: false } do %>
+  <div>
+    <%= label_tag :city, "Город" %><br>
+    <%= text_field_tag :city, params[:city] %>
+  </div>
+
+  <div style="margin-top: 10px;">
+    <%= submit_tag "Показать погоду" %>
+  </div>
+<% end %>
+
+<% if @weather %>
+  <% if @weather[:error] %>
+    <p class="error"><%= @weather[:error] %></p>
+  <% else %>
+    <div class="weather-card">
+      <div class="weather-city">
+        <%= @weather[:city] %>, <%= @weather[:country] %>
+      </div>
+
+      <div class="weather-temp">
+        <%= @weather[:temperature] %>°C
+      </div>
+
+      <div class="weather-condition">
+        <%= @weather[:condition] %>
+      </div>
+
+      <div class="weather-info">
+        Ветер: <%= @weather[:wind_speed] %> км/ч
+      </div>
+
+      <div class="weather-info">
+        Обновлено:
+        <%= @weather[:fetched_at].strftime("%d.%m.%Y %H:%M") %>
+      </div>
+    </div>
+  <% end %>
+<% end %>
+
+<% if @history&.any? %>
+  <h2>История запросов</h2>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Город</th>
+        <th>Страна</th>
+        <th>Температура</th>
+        <th>Состояние</th>
+        <th>Ветер</th>
+        <th>Время</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @history.each do |item| %>
+        <tr>
+          <td><%= item.city %></td>
+          <td><%= item.country %></td>
+          <td><%= item.temperature %> °C</td>
+          <td><%= item.condition %></td>
+          <td><%= item.wind_speed %> км/ч</td>
+          <td><%= item.created_at.strftime("%d.%m.%Y %H:%M") %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% end %>
