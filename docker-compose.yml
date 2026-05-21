@@ -12,7 +12,7 @@ services:
       - RAILS_ENV=production
       - RAILS_SERVE_STATIC_FILES=true
       # Передаем ваш секретный ключ
-      - SECRET_KEY_BASE=ВАШ_СЕКРЕТНЫЙ_КЛЮЧ
+      - SECRET_KEY_BASE=ffb4e6fb1712aca8b0ef5f2acddaa126f00952acbfbd4a2e1208a1b687f9550191e20345fb6a4259e4f7a5ca7000fd019626c8ddaf462a7807fe401ce9b862e9
     volumes:
       # Важно: SQLite в Dockerfile лежит в /rails/storage или /rails/db. 
       # Rails 8 по умолчанию хранит production базу в storage/. Пробросим всю папку, чтобы данные не пропадали.
