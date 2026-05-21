@@ -1,0 +1,23 @@
+version: '3.8'
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    # Пробрасываем порт: на сервере оставляем 3000 (или можно поставить 80, если порт свободен)
+    ports:
+      - "3000:80"
+    environment:
+      - RAILS_ENV=production
+      - RAILS_SERVE_STATIC_FILES=true
+      # Передаем ваш секретный ключ
+      - SECRET_KEY_BASE=ВАШ_СЕКРЕТНЫЙ_КЛЮЧ
+    volumes:
+      # Важно: SQLite в Dockerfile лежит в /rails/storage или /rails/db. 
+      # Rails 8 по умолчанию хранит production базу в storage/. Пробросим всю папку, чтобы данные не пропадали.
+      - rails_storage:/rails/storage
+    restart: always
+
+volumes:
+  rails_storage:
